@@ -1,11 +1,12 @@
-function codegen(model_path, output_dir, step_size)
+function codegen(model_path, output_dir, step_size, solver_name)
     current_dir = pwd()
     oC1 = onCleanup(@() cd(current_dir));
     temp_dir = fullfile(tempdir, tempname);
     mkdir(temp_dir);
-    oC2 = onCleanup(@() rmdir(temp_dir, 's'));
+    disp(temp_dir);
+%    oC2 = onCleanup(@() rmdir(temp_dir, 's'));
     cd(temp_dir)
-    orderedCleanupObj = onCleanup(@()cellfun(@delete, {oC1, oC2}));
+%    orderedCleanupObj = onCleanup(@()cellfun(@delete, {oC1, oC2}));
 
     [~, model_name, ~] = fileparts(model_path);
     oC3 = onCleanup(@() close_system(model_name, 0));
@@ -14,6 +15,7 @@ function codegen(model_path, output_dir, step_size)
     set_param(model_config,'SystemTargetFile','ert.tlc');
     set_param(model_config,'SupportContinuousTime','on');
     set_param(model_config,'GenerateSampleERTMain','off');
+    set_param(model_config, 'Solver', solver_name);
     set_param(model_config,'FixedStep', num2str(step_size));
     set_param(model_name,'DataTypeOverride','Off')
     slbuild(model_name, 'GenerateCodeOnly', true);
