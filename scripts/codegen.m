@@ -4,9 +4,9 @@ function codegen(model_path, output_dir, step_size, solver_name)
     temp_dir = fullfile(tempdir, tempname);
     mkdir(temp_dir);
     disp(temp_dir);
-%    oC2 = onCleanup(@() rmdir(temp_dir, 's'));
+    oC2 = onCleanup(@() rmdir(temp_dir, 's'));
     cd(temp_dir)
-%    orderedCleanupObj = onCleanup(@()cellfun(@delete, {oC1, oC2}));
+    orderedCleanupObj = onCleanup(@()cellfun(@delete, {oC1, oC2}));
 
     [~, model_name, ~] = fileparts(model_path);
     oC3 = onCleanup(@() close_system(model_name, 0));
