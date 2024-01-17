@@ -30,7 +30,7 @@ def export_model(slx_path: str, output_dir: str, step_size: float, solver: Fixed
                 f"It should be compatible with '{engine.get_current_release(nargout=1)}'."
             )
         engine.codegen(slx_path, output_dir, step_size, solver.value, nargout=0, stdout=stdout_buffer, stderr=stderr_buffer)
-    except ValueError as ex:
+    except ValueError:
         raise
     except:
         error_stack = stderr_buffer.getvalue()
