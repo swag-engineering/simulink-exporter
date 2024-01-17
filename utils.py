@@ -30,9 +30,11 @@ def export_model(slx_path: str, output_dir: str, step_size: float, solver: Fixed
                 f"It should be compatible with '{engine.get_current_release(nargout=1)}'."
             )
         engine.codegen(slx_path, output_dir, step_size, solver.value, nargout=0, stdout=stdout_buffer, stderr=stderr_buffer)
+    except ValueError as ex:
+        raise
     except:
         error_stack = stderr_buffer.getvalue()
-        print(stdout_buffer.getvalue() + error_stack)
+        logging.error(stdout_buffer.getvalue() + error_stack)
         cause_block = extract_cause_block(error_stack)
         raise ValueError(cause_block) if cause_block else ValueError("Can't build the model")
     finally:
