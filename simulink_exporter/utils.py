@@ -30,10 +30,14 @@ def export_model(slx_path: str, output_dir: str, step_size: float, solver: Fixed
                 f"It should be compatible with '{engine.get_current_release(nargout=1)}'."
             )
         engine.codegen(slx_path, output_dir, step_size, solver.value, nargout=0, stdout=stdout_buffer, stderr=stderr_buffer)
+    except ValueError:
+        raise
     except:
         error_stack = stderr_buffer.getvalue()
         logging.error(stdout_buffer.getvalue() + error_stack)
         cause_block = extract_cause_block(error_stack)
+        if not cause_block:
+            cause_block = extract_error_in_block(error_stack)
         raise ValueError(cause_block) if cause_block else ValueError("Can't build the model")
     finally:
         if engine:
@@ -42,4 +46,9 @@ def export_model(slx_path: str, output_dir: str, step_size: float, solver: Fixed
 
 def extract_cause_block(stack: str) -> str | None:
     result = re.search(r"Caused by:\n\s+.*(\n(?!\s*$).*)+", stack)
+    return result.group(0) if result else None
+
+
+def extract_error_in_block(stack: str) -> str | None:
+    result = re.search(r"Error in '.*?': (.*?)(?=\n|$)", stack)
     return result.group(0) if result else None
