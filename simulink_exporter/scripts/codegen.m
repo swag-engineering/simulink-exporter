@@ -1,5 +1,5 @@
 function codegen(model_path, output_dir, step_size, solver_name)
-    current_dir = pwd()
+    current_dir = pwd();
     oC1 = onCleanup(@() cd(current_dir));
     temp_dir = fullfile(tempdir, tempname);
     mkdir(temp_dir);
