@@ -4,7 +4,6 @@ import logging
 import os
 import re
 
-import matlab.engine
 
 current_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -18,6 +17,8 @@ class FixedStepSolver(str, enum.Enum):
 
 
 def export_model(slx_path: str, output_dir: str, step_size: float, solver: FixedStepSolver):
+    import matlab.engine
+
     engine = None
     stdout_buffer = io.StringIO()
     stderr_buffer = io.StringIO()
