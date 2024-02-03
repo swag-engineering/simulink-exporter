@@ -23,7 +23,7 @@ model using a defined _solver_ and _fixed time step_. It then outputs _.c_ and _
 The only dependency you will see in _requirements.txt_ is _matlabengine_, but be aware _matlabengine_ is very cranky and
 will reject to be installed if you don't have Matlab installed, or if there is missmatch between _matlabengine_ version
 and Matlab release, or if there is missmatch between _matlabengine_ and Python versions. With specified
-_matlabengine==9.14.3_ you need:
+_matlabengine==9.15.2_ you need:
 
 - Matlab release R2023b or older
 - Python 3.9, 3.10 or 3.11
