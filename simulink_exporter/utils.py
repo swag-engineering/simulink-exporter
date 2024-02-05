@@ -14,6 +14,9 @@ class FixedStepSolver(str, enum.Enum):
     ODE3 = "ode3"
     ODE4 = "ode4"
     ODE5 = "ode5"
+    ODE8 = "ode8"
+    ODE14X = "ode14x"
+    ODE1BE = "ode1be"
 
 
 def export_model(slx_path: str, output_dir: str, step_size: float, solver: FixedStepSolver):
