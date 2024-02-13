@@ -25,8 +25,10 @@ will reject to be installed if you don't have Matlab installed, or if there is m
 and Matlab release, or if there is missmatch between _matlabengine_ and Python versions. With specified
 _matlabengine==9.15.2_ you need:
 
-- Matlab release R2023b or older
-- Python 3.9, 3.10 or 3.11
+- Matlab release R2023b or older.
+- Python 3.9, 3.10 or 3.11.
 
 To find _matlabengine_ version that fits you need you can refer
 to [Release history](https://pypi.org/project/matlabengine/9.14.3/#history).
+
+You also need Simulink suite with Embedded Coder, since project uses '_ert.tlc_' target.
