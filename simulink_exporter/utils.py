@@ -18,8 +18,19 @@ class FixedStepSolver(str, enum.Enum):
     ODE14X = "ode14x"
     ODE1BE = "ode1be"
 
+class CLanguageStandard(str, enum.Enum):
+    C99 = "C99"
+    ANSI_C = "C89/C90 (ANSI)"
 
-def export_model(slx_path: str, output_dir: str, step_size: float, solver: FixedStepSolver):
+
+def export_model(
+        slx_path: str,
+        output_dir: str,
+        step_size: float,
+        solver: FixedStepSolver,
+        simulink_paths: list[str],
+        use_ansi_c
+):
     import matlab.engine
 
     engine = None
@@ -33,7 +44,17 @@ def export_model(slx_path: str, output_dir: str, step_size: float, solver: Fixed
                 f"Model version was created with newer Matlab Release. " +
                 f"It should be compatible with '{engine.get_current_release(nargout=1)}'."
             )
-        engine.codegen(slx_path, output_dir, step_size, solver.value, nargout=0, stdout=stdout_buffer, stderr=stderr_buffer)
+        engine.codegen(
+            slx_path,
+            output_dir,
+            step_size,
+            solver.value,
+            simulink_paths,
+            CLanguageStandard.ANSI_C.value if use_ansi_c else CLanguageStandard.C99.value,
+            nargout=0,
+            stdout=stdout_buffer,
+            stderr=stderr_buffer
+        )
     except ValueError:
         raise
     except:
